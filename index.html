@@ -60,7 +60,9 @@
       .meta, .warn { font-size: 0.875rem; }
       .meta { color: var(--muted); }
       .warn { color: var(--warn); min-height: 1.3em; }
-      input[type="file"] { display: none; }
+      input[type="file"] { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+      .drop:has(+ input:focus-visible) { outline: 2px solid var(--accent, #0f766e); outline-offset: 2px; }
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
       input[type="text"] {
         width: 100%;
         border: 1px solid var(--line);
@@ -125,8 +127,9 @@
         <div class="meta" id="hint">PNG, JPEG, WebP. 12 files, 8 MB each. Order is drop order.</div>
       </label>
       <input id="files" type="file" accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp" multiple />
+      <label class="sr-only" for="title">Guide title</label>
       <input id="title" type="text" placeholder="Guide title (optional)" maxlength="120" />
-      <p class="warn" id="warn"></p>
+      <p class="warn" id="warn" role="status"></p>
       <div class="row">
         <button id="run" disabled>Download HTML</button>
         <button class="secondary" id="reset" type="button">Clear</button>
