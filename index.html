@@ -188,7 +188,7 @@
             (f, i) =>
               `<div class="step"><div class="n">${i + 1}</div><div><strong>${escapeHtml(
                 titleFromName(f.name)
-              )}</strong><div class="meta">${f.name}</div></div></div>`
+              )}</strong><div class="meta">${escapeHtml(f.name)}</div></div></div>`
           )
           .join("");
       }
