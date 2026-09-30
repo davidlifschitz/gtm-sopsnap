@@ -285,7 +285,7 @@ ${body}
         const blob = new Blob([html], { type: "text/html" });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = heading.replace(/[^\w.-]+/g, "-").replace(/^-|-$/g, "") + ".html";
+        a.download = (heading.replace(/[^\p{L}\p{N}_.-]+/gu, "-").replace(/^[-.]+|-+$/g, "") || "sop") + ".html";
         a.click();
         setTimeout(() => URL.revokeObjectURL(a.href), 2000);
       };
