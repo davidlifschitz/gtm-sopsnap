@@ -199,16 +199,19 @@
 
       function setFiles(list) {
         $("warn").textContent = "";
-        const next = [];
+        const next = [], big = [], bad = [];
+        let extra = 0;
         for (const f of list) {
-          if (next.length >= MAX_N) break;
-          if (f.size > MAX_B) {
-            $("warn").textContent = f.name + " is over 8 MB.";
-            continue;
-          }
-          if (!/^image\/(png|jpeg|webp)$/.test(f.type) && !/\.(png|jpe?g|webp)$/i.test(f.name)) continue;
+          if (f.size > MAX_B) { big.push(f.name); continue; }
+          if (!/^image\/(png|jpeg|webp)$/.test(f.type) && !/\.(png|jpe?g|webp)$/i.test(f.name)) { bad.push(f.name); continue; }
+          if (next.length >= MAX_N) { extra++; continue; }
           next.push(f);
         }
+        const notes = [];
+        if (extra) notes.push(`Kept the first ${MAX_N}; skipped ${extra} more.`);
+        if (big.length) notes.push(`Over 8 MB: ${big.join(", ")}.`);
+        if (bad.length) notes.push(`Not PNG/JPEG/WebP: ${bad.join(", ")}.`);
+        $("warn").textContent = notes.join(" ");
         picked = next;
         $("drop").classList.toggle("filled", picked.length > 0);
         $("hint").textContent = picked.length
